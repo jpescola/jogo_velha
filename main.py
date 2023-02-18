@@ -5,11 +5,19 @@ from PyQt5.QtWidgets import QApplication, QMessageBox
 
 
 def novo():
-    # zerar score
-    t.score.setText('0')
     # limpar botões
     for i in botoes:
         i.setText("")
+
+
+def limpar():
+    atualizar()
+    novo()
+
+
+def atualizar():
+    t.scoreX.setText(str(pontosX))
+    t.score0.setText(str(pontos0))
 
 
 def msg(titulo, texto):
@@ -18,10 +26,15 @@ def msg(titulo, texto):
     m.setWindowTitle(titulo)
     m.setText(texto)
     if m.exec() == QMessageBox.Ok:
-        exit()
+        limpar()
 
 
 def vencedor(a):
+    global pontos0, pontosX
+    if a == '0':
+        pontos0 += 1
+    else:
+        pontosX += 1
     msg('fim', str(a) + ' venceu')
 
 
@@ -40,22 +53,24 @@ def evento(button):
     button.setText(j)
 
     # verifica vencedor
-    if all(j == e for e in [botoes[0].text(), botoes[1].text(), botoes[2].text()]):
+    if all(j == b.text() for b in [botoes[0], botoes[1], botoes[2]]):
         vencedor(j)
-    elif all(j == e for e in [botoes[3].text(), botoes[4].text(), botoes[5].text()]):
+    elif all(j == b.text() for b in [botoes[3], botoes[4], botoes[5]]):
         vencedor(j)
-    elif all(j == e for e in [botoes[6].text(), botoes[7].text(), botoes[8].text()]):
+    elif all(j == b.text() for b in [botoes[6], botoes[7], botoes[8]]):
         vencedor(j)
-    elif all(j == e for e in [botoes[0].text(), botoes[3].text(), botoes[6].text()]):
+    elif all(j == b.text() for b in [botoes[0], botoes[3], botoes[6]]):
         vencedor(j)
-    elif all(j == e for e in [botoes[1].text(), botoes[4].text(), botoes[7].text()]):
+    elif all(j == b.text() for b in [botoes[1], botoes[4], botoes[7]]):
         vencedor(j)
-    elif all(j == e for e in [botoes[2].text(), botoes[5].text(), botoes[8].text()]):
+    elif all(j == b.text() for b in [botoes[2], botoes[5], botoes[8]]):
         vencedor(j)
-    elif all(j == e for e in [botoes[0].text(), botoes[4].text(), botoes[8].text()]):
+    elif all(j == b.text() for b in [botoes[0], botoes[4], botoes[8]]):
         vencedor(j)
-    elif all(j == e for e in [botoes[2].text(), botoes[4].text(), botoes[6].text()]):
+    elif all(j == b.text() for b in [botoes[2], botoes[4], botoes[6]]):
         vencedor(j)
+    elif all(b.text() != '' for b in botoes):
+        msg('fim', 'Empatou')
 
 
 def getJogada():
@@ -68,6 +83,8 @@ def getJogada():
 
 
 vez = 0
+pontos0 = 0
+pontosX = 0
 
 # inicializando a janela
 Form, Window = uic.loadUiType("tela.ui")
@@ -83,6 +100,9 @@ for i in botoes:
     i.clicked.connect(partial(evento, i))
 
 # inicializa o jogo
+# zerar score
+t.scoreX.setText('0')
+t.score0.setText('0')
 novo()
 
 # apresenta a janela
