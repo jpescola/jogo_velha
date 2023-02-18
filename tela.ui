@@ -305,6 +305,19 @@
     <number>111</number>
    </property>
   </widget>
+  <widget class="QPushButton" name="reset">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>70</y>
+     <width>80</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>reset</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

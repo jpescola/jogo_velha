@@ -74,6 +74,27 @@ def evento(button):
         msg('fim', 'Empatou')
 
 
+def question(titulo, texto):
+    m = QMessageBox()
+    m.setIcon(QMessageBox.Question)
+    m.setWindowTitle(titulo)
+    m.setText(texto)
+    m.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+    return m.exec()
+
+
+def reset():
+    if question('confirma?', 'Resetar jogo?') == QMessageBox.Ok:
+        try:
+            import os
+            os.remove("score.dat")
+            global pontos0, pontosX
+            pontos0 = pontosX = 0
+            atualizar()
+        except:
+            pass
+
+
 def salvar():
     global pontos0, pontosX
     f = open('score.dat', 'w')
@@ -122,6 +143,7 @@ t.score0.setStyleSheet('color : blue')
 t.scoreX.setStyleSheet('color : red')
 
 # define os eventos dos botões
+t.reset.clicked.connect(reset)
 for i in botoes:
     i.clicked.connect(partial(evento, i))
 
